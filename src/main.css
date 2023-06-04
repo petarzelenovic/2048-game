@@ -17,9 +17,7 @@ body {
   align-items: center;
   font-family: "Clear Sans", sans-serif;
   font-size: 21px;
-
   background-color: #4b80a3;
-
   background-image: url("./assets/img/pozadina1.png");
   background-position: cover;
 }

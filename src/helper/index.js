@@ -1,11 +1,13 @@
 var rotateLeft = function (matrix) {
   var rows = matrix.length;
   var columns = matrix[0].length;
-  var res = [];
+  var res = []; // smestamo rotirajucu matricu
   for (var row = 0; row < rows; ++row) {
     res.push([]);
+    //ubacivanje praznog niza
     for (var column = 0; column < columns; ++column) {
       res[row][column] = matrix[column][columns - row - 1];
+      //rotiranje ulevo
     }
   }
   return res;
@@ -13,6 +15,7 @@ var rotateLeft = function (matrix) {
 
 class Tile {
   constructor(value, row, column) {
+    //atributi i njene default vrednosti
     this.value = value || 0;
     this.row = row || -1;
     this.column = column || -1;
@@ -20,6 +23,7 @@ class Tile {
     this.oldColumn = -1;
     this.markForDeletion = false;
     this.mergedInto = null;
+    //referenca na plocicu u koju ulazi
     this.id = this.id++ || 0;
   }
   moveTo(row, column) {
@@ -55,7 +59,9 @@ class Tile {
 
 class Board {
   constructor() {
+    //niz plocica
     this.tiles = [];
+    //niz celija
     this.cells = [];
     this.score = 0;
     this.size = 4;
@@ -123,11 +129,13 @@ class Board {
     for (var r = 0; r < this.size; ++r) {
       for (var c = 0; c < this.size; ++c) {
         if (this.cells[r][c].value === 0) {
+          //prolazi se kroz sve celije i gleda da li je prazna, ukoliko jeste ubacuje se u niz (index i kolona)
           emptyCells.push({ r: r, c: c });
         }
       }
     }
     var index = ~~(Math.random() * emptyCells.length);
+    //kao math floor samo sto odsece decimale, generise od 0 do emptyCells
     var cell = emptyCells[index];
     var newValue = Math.random() < this.fourProbability ? 4 : 2;
     this.cells[cell.r][cell.c] = this.addTile(newValue);
@@ -135,6 +143,7 @@ class Board {
   move(direction) {
     // 0 -> left, 1 -> up, 2 -> right, 3 -> down
     this.clearOldTiles();
+    //brise one koje su oznacene sa markForDelete
     for (var i = 0; i < direction; ++i) {
       this.cells = rotateLeft(this.cells);
     }
@@ -162,7 +171,9 @@ class Board {
     for (var row = 0; row < this.size; ++row) {
       for (var column = 0; column < this.size; ++column) {
         canMove |= this.cells[row][column].value === 0;
+        //dobice bilo koja celija ima vrednost 0, binarni operator
         for (var dir = 0; dir < 4; ++dir) {
+          //proveravaju se sve susedne celije
           var newRow = row + this.deltaX[dir];
           var newColumn = column + this.deltaY[dir];
           if (
@@ -173,9 +184,11 @@ class Board {
           ) {
             continue;
           }
+          //proveravanje da li vrednosti susednih celija upadaju u granice
           canMove |=
             this.cells[row][column].value ===
             this.cells[newRow][newColumn].value;
+          //ukoliko postoji jos neka plocica sa istim brojem postoji mogucnsot za spajanje
         }
       }
     }

@@ -11,9 +11,12 @@ const Tile = ({ tile }) => {
   //6 isMoving
   //7 new
   //8 merged
+  //tipovi klasa koje plocica moze dobiti
 
   let classArray = ["tile"];
+  //niz klasa za plocice
   classArray.push("tile" + tile.value);
+
   if (!tile.mergedInto) {
     classArray.push(`position_${tile.row}_${tile.column}`);
   }
@@ -33,7 +36,10 @@ const Tile = ({ tile }) => {
   }
 
   let classes = classArray.join(" ");
+  //spajamo sve clanove niza u string odvojene razmakom
   return <span className={classes}> </span>;
+  //vracamo span sa klasom koja obuhvata sve moguce klase iz niza
+  //taj span je plocica zapravo
 };
 
 export default Tile;
